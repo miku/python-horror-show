@@ -188,3 +188,32 @@ The value of `x` can be exactly represented by a Python `int`, but not by a Pyth
 When `x + 1.0` is evaluated, `x` is first converted to a `float` in order to perform the addition. This makes its value x - 1. Then `1.0` is added. This brings the value back up to x, but since the result is a float, it is again rounded down to x - 1.
 
 Next the comparison happens. This is where Python differs from many other languages. In C, for instance, if a `double` is compared to an `int`, the `int` is first converted to a `double`. In this case, that would mean the right-hand side would also be rounded to x - 1, the two sides would be equal, and the `<` comparison would be false. Python, however, has special logic to handle comparison between `float`s and `int`s, and it's able to correctly determine that a `float` with a value of x - 1 is less than an `int` with a value of x.
+
+A short esoteric Python string tutorial
+---------------------------------------
+
+Via: [925787482515533830](https://twitter.com/dabeaz/status/925787482515533830).
+
+```
+>>> import sys
+>>> a = 'n'
+>>> b = 'ñ'
+>>> sys.getsizeof(a)
+50
+>>> sys.getsizeof(b)
+74
+>>> float(b)
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+<ipython-input-3-c3f4d1eb8547> in <module>()
+----> 1 float(b)
+
+ValueError: could not convert string to float: 'ñ'
+>>> sys.getsizeof(b)
+77
+```
+
+Hints:
+
+* https://github.com/python/cpython/blob/2bb69a5b4e7f96cb35d1b28aa7b7b3974b351f59/Objects/floatobject.c#L166-L215
+* https://www.python.org/dev/peps/pep-0393/
